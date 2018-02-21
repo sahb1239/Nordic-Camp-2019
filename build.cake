@@ -10,15 +10,6 @@ var sln = "Nordic4HCamp.sln";
 // TASKS
 //////////////////////////////////////////////////////////////////////
 
-Task("Clean")
-    .Does(() =>
-{
-    CleanDirectories("./src/**/bin");
-	CleanDirectories("./src/**/obj");
-	CleanDirectories("./tests/**/bin");
-	CleanDirectories("./tests/**/obj");
-});
-
 Task("Restore-NuGet-Packages")
     .Does(() =>
 {
@@ -30,7 +21,6 @@ Task("Restore-NuGet-Packages")
 });
 
 Task("Build")
-	.IsDependentOn("Clean")
 	.IsDependentOn("Restore-NuGet-Packages")
     .Does(() =>
 {
