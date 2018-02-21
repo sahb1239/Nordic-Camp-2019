@@ -5,3 +5,4 @@ build_script:
 cache:
   - tools\Cake -> tools\packages.config # Cake NuGet cache
   - src\Frontend\node_modules -> src\Frontend\package.json
+test: off
