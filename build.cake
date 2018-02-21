@@ -36,19 +36,22 @@ Task("Build")
 {
 	var settings = new DotNetCoreBuildSettings
     {
-		Configuration = configuration
+		Configuration = configuration,
+		NoRestore = true
     };
 
 	DotNetCoreBuild(sln, settings);
 });
 
 Task("Publish")
-	.IsDependentOn("Build")
+	.IsDependentOn("Restore-NuGet-Packages") // Publish implicit builds
 	.Does(() =>
 {
 	var settings = new DotNetCorePublishSettings
     {
-		Configuration = configuration
+		Configuration = configuration,
+		NoRestore = true,
+		
     };
 
 	DotNetCorePublish(sln, settings);
