@@ -4,15 +4,7 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
-var sln = Argument("sln", "");
-
-//////////////////////////////////////////////////////////////////////
-// Solution
-//////////////////////////////////////////////////////////////////////
-
-if (string.IsNullOrEmpty(sln)) {
-	sln = System.IO.Directory.GetFiles("*.sln")[0];
-}
+var sln = "Nordic4HCamp.sln"
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -62,32 +54,12 @@ Task("Publish")
 	DotNetCorePublish(sln, settings);
 });
 
-Task("Test-CI")
-    .Does(() =>
-{
-	foreach (var test in System.IO.Directory.GetFiles("../tests/", "*.Tests.csproj", SearchOption.AllDirectories))
-	{
-		var settings = new DotNetCoreTestSettings
-		{
-			Configuration = configuration,
-			NoBuild = true,
-			ArgumentCustomization = args=>args.Append("--logger \"trx;LogFileName=TestResults.trx\""),
-		};
-	
-		DotNetCoreTest(test, settings);
-	}
-});
-
-Task("Test")
-	.IsDependentOn("Build")
-    .IsDependentOn("Test-CI");
-
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-    .IsDependentOn("Test");
+    .IsDependentOn("Publish");
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION
