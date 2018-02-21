@@ -4,7 +4,7 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
-var sln = "Nordic4HCamp.sln"
+var sln = "Nordic4HCamp.sln";
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
