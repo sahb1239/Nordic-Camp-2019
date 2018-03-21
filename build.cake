@@ -10,15 +10,6 @@ var sln = "Nordic4HCamp.sln";
 // TASKS
 //////////////////////////////////////////////////////////////////////
 
-Task("Clean")
-    .Does(() =>
-{
-    CleanDirectories("./src/**/bin");
-	CleanDirectories("./src/**/obj");
-	CleanDirectories("./tests/**/bin");
-	CleanDirectories("./tests/**/obj");
-});
-
 Task("Restore-NuGet-Packages")
     .Does(() =>
 {
@@ -30,25 +21,27 @@ Task("Restore-NuGet-Packages")
 });
 
 Task("Build")
-	.IsDependentOn("Clean")
 	.IsDependentOn("Restore-NuGet-Packages")
     .Does(() =>
 {
 	var settings = new DotNetCoreBuildSettings
     {
-		Configuration = configuration
+		Configuration = configuration,
+		NoRestore = true
     };
 
 	DotNetCoreBuild(sln, settings);
 });
 
 Task("Publish")
-	.IsDependentOn("Build")
+	.IsDependentOn("Restore-NuGet-Packages") // Publish implicit builds
 	.Does(() =>
 {
 	var settings = new DotNetCorePublishSettings
     {
-		Configuration = configuration
+		Configuration = configuration,
+		NoRestore = true,
+		
     };
 
 	DotNetCorePublish(sln, settings);
