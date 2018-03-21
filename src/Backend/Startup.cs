@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.GraphQL.Helper.Builder;
 using Backend.GraphQL.Helper.Schema;
+using Backend.Repositories;
+using Backend.Repositories.Mock;
 using GraphQL.DataLoader;
 using GraphQL.Server.Transports.AspNetCore;
 using GraphQL.Server.Ui.GraphiQL;
@@ -26,6 +28,9 @@ namespace Backend
             services.RegistrerSchema<GraphQLQuery, GraphQLMutation>();
             services.AddSingleton<IDataLoaderContextAccessor, DataLoaderContextAccessor>();
             services.AddTransient<DataLoaderDocumentListener>();
+
+            // Add repositories
+            services.AddSingleton<IPageRepository, MockPageRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
